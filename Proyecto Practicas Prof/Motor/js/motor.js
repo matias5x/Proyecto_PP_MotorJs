@@ -21,25 +21,42 @@ let bucle = {
     play: function() {
         bucle.fps++;
         borrarCanvas();
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.font = "8px Arial";
+        ctx.fillText(Timer.now, 10, 10);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.font = "8px Arial";
+        ctx.fillText(myReloj.view, 10, 40);
+
+
+        ctx.stroke();
+        
     },
 }
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 let margen = 10;
-let canvasTop = (margen/2);
-let canvasLeft = (margen/2);
-let ancho = window.innerWidth - margen;
-let alto = window.innerHeight - margen;
+
 
 function ajustarVentana() {
+    let canvasTop = (margen/2);
+    let canvasLeft = (margen/2);
+    let ancho = window.innerWidth - margen;
+    let alto = window.innerHeight - margen;
     canvas.style.top = canvasTop + "px";
     canvas.style.left = canvasLeft + "px";
     canvas.style.width = ancho + "px";
     canvas.style.height = alto + "px";
-}
+};
+
 function borrarCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+};
+
 window.addEventListener("load", function(e) {
     ajustarVentana();
     bucle.iterar();
@@ -47,3 +64,7 @@ window.addEventListener("load", function(e) {
 window.addEventListener("resize", function(e) {
     ajustarVentana();
 });
+Concurrent.Thread.create(InitTimer);
+
+var myReloj = new Cronometro("crono1", tipoCrono.Forward);
+myReloj.run();
